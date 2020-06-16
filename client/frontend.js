@@ -34,13 +34,18 @@ new Vue({
             //console.log(response)
 
             this.contacts.push(newContact)
-            // this.form.name = this.form.value = ''
+
         },
-        markContact(id) {
+        async markContact(id) {
             const contact = this.contacts.find(c => c.id === id)
-            contact.marked = true
+            const updated = await request(`/api/contacts/${id}`, 'PUT', {
+                ...contact,
+                marked: true
+            })
+            contact.marked = updated.marked
         },
-        removeContact(id) {
+        async removeContact(id) {
+            await request(`/api/contacts/${id}`, 'DELETE')
             this.contacts = this.contacts.filter(c => c.id !== id)
         }
     },
@@ -66,6 +71,6 @@ async function request(url, method = 'GET', data = null) {
         })
         return await response.json()
     } catch (e) {
-        console.warn('Error:', e.massage)
+        console.log('Error:', e.message)
     }
 }
