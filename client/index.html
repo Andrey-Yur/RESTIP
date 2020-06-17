@@ -47,6 +47,20 @@
         <p v-else>No Records</p>
     </div>
 
+    <div id="geo">
+        <div v-if="errorStr">
+            Sorry, but the following error
+            occurred: {{errorStr}}
+        </div>
+
+        <div v-if="gettingLocation">
+            <i>Getting your location...</i>
+        </div>
+
+        <div v-if="location">
+            Your location data is {{ location.coords.latitude }}, {{ location.coords.longitude}}
+        </div>
+    </div>
     <script type="module" src="frontend.js"></script>
 </body>
 </html>

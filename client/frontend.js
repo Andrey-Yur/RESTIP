@@ -9,6 +9,7 @@ Vue.component('loader', {
     </div>
   `
 })
+
 new Vue({
     el: '#app',
     data() {
@@ -20,8 +21,10 @@ new Vue({
             },
             contacts: []
 
+
         }
     },
+
     computed: {
         canCreate() {
             return this.form.value.trim() && this.form.name.trim()
@@ -54,7 +57,37 @@ new Vue({
         this.contacts = await request('/api/contacts')
         this.loading = false
     }
+
+
 })
+
+new Vue({
+    el: '#geo',
+    data: {
+        location: null,
+        gettingLocation: false,
+        errorStr: null
+    },
+    created() {
+        //do we support geolocation
+        if (!("geolocation" in navigator)) {
+            this.errorStr = 'Geolocation is not available.';
+            return;
+        }
+
+        this.gettingLocation = true;
+        // get position
+        navigator.geolocation.getCurrentPosition(pos => {
+            this.gettingLocation = false;
+            this.location = pos;
+        }, err => {
+            this.gettingLocation = false;
+            this.errorStr = err.message;
+        })
+    }
+})
+
+
 async function request(url, method = 'GET', data = null) {
     try {
         const headers = {}
