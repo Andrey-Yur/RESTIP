@@ -1,5 +1,4 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js'
-import axios from 'axios'
 
 Vue.component('loader', {
     template: `
@@ -88,6 +87,8 @@ new Vue({
     }
 
 })
+
+
 
 async function request(url, method = 'GET', data = null) {
     try {
