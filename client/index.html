@@ -16,7 +16,7 @@
 <body>
 
     <div class="container pt-3" id="app" v-cloak>
-        <h1> CARD OF CONTACTS </h1>
+        <h1> {{nameOfPage}} </h1>
         <form class="form-inline mb-3" @submit.prevent="createContact">
             <div class="form-group mr-5">
                 <label class="mr-3" for="name">Name</label>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group mr-5">
                 <label class="mr-3" for="value">Phone</label>
-                <input type="text" class="form-control" id="value" v-model="form.value">
+                <input type="text" class="form-control" id="value" v-model="form.value" v-on:input="alertQ">
             </div>
             <button type="submit" class="btn btn-primary" :disabled="!canCreate">Create</button>
         </form>
@@ -47,7 +47,7 @@
         <p v-else>No Records</p>
     </div>
 
-    <div id="geo">
+    <div class="container pt-3" id="geo">
         <div v-if="errorStr">
             Sorry, but the following error
             occurred: {{errorStr}}
@@ -61,6 +61,13 @@
             Your location data is {{ location.coords.latitude }}, {{ location.coords.longitude}}
         </div>
     </div>
-    <script type="module" src="frontend.js"></script>
+
+    <div id="cns">
+        <drawing-board></drawing-board>
+
+    </div>
+
+    <script type="module" src="frontend.js">
+    </script>
 </body>
 </html>

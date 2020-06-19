@@ -1,4 +1,5 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js'
+import axios from 'axios'
 
 Vue.component('loader', {
     template: `
@@ -10,10 +11,12 @@ Vue.component('loader', {
   `
 })
 
+
 new Vue({
     el: '#app',
     data() {
         return {
+            nameOfPage: 'CARD OF CONTACTS',
             loading: false,
             form: {
                 name: '',
@@ -23,8 +26,8 @@ new Vue({
 
 
         }
-    },
 
+    },
     computed: {
         canCreate() {
             return this.form.value.trim() && this.form.name.trim()
@@ -35,9 +38,7 @@ new Vue({
             const { ...contact } = this.form
             const newContact = await request('/api/contacts', 'POST', contact)
             //console.log(response)
-
             this.contacts.push(newContact)
-
         },
         async markContact(id) {
             const contact = this.contacts.find(c => c.id === id)
@@ -58,7 +59,6 @@ new Vue({
         this.loading = false
     }
 
-
 })
 
 new Vue({
@@ -68,9 +68,10 @@ new Vue({
         gettingLocation: false,
         errorStr: null
     },
-    created() {
+    mounted: function () {
+
         //do we support geolocation
-        if (!("geolocation" in navigator)) {
+        if (!('geolocation' in navigator)) {
             this.errorStr = 'Geolocation is not available.';
             return;
         }
@@ -85,8 +86,8 @@ new Vue({
             this.errorStr = err.message;
         })
     }
-})
 
+})
 
 async function request(url, method = 'GET', data = null) {
     try {
